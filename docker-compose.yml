@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    container_name: realworld-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: realworld-db
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: realworld-app
+    ports:
+      - "3000:8080"
+    depends_on:
+      - db
+    env_file:
+      - .env.prod
